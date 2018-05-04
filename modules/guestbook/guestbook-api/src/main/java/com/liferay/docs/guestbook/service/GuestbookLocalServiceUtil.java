@@ -95,6 +95,14 @@ public class GuestbookLocalServiceUtil {
 		return getService().deleteGuestbook(guestbookId);
 	}
 
+	public static com.liferay.docs.guestbook.model.Guestbook deleteGuestbook(
+		long guestbookId,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().deleteGuestbook(guestbookId, serviceContext);
+	}
+
 	public static com.liferay.docs.guestbook.model.Guestbook fetchGuestbook(
 		long guestbookId) {
 		return getService().fetchGuestbook(guestbookId);
@@ -148,6 +156,15 @@ public class GuestbookLocalServiceUtil {
 	public static com.liferay.docs.guestbook.model.Guestbook updateGuestbook(
 		com.liferay.docs.guestbook.model.Guestbook guestbook) {
 		return getService().updateGuestbook(guestbook);
+	}
+
+	public static com.liferay.docs.guestbook.model.Guestbook updateGuestbook(
+		long userId, long guestbookId, java.lang.String name,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .updateGuestbook(userId, guestbookId, name, serviceContext);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {

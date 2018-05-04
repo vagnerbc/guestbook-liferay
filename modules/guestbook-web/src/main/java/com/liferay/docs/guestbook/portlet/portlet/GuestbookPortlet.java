@@ -15,6 +15,7 @@ import javax.portlet.RenderResponse;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import com.liferay.docs.guestbook.constants.GuestbookPortletKeys;
 import com.liferay.docs.guestbook.model.Entry;
 import com.liferay.docs.guestbook.model.Guestbook;
 import com.liferay.docs.guestbook.service.EntryLocalService;
@@ -34,7 +35,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
         "com.liferay.portlet.display-category=category.social",
         "com.liferay.portlet.instanceable=false",
         "com.liferay.portlet.scopeable=true",
-        "javax.portlet.display-name=Guestbook",
+        "javax.portlet.name=" + GuestbookPortletKeys.GUESTBOOK,
         "javax.portlet.expiration-cache=0",
         "javax.portlet.init-param.template-path=/",
         "javax.portlet.init-param.view-template=/guestbookwebportlet/view.jsp",
