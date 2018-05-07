@@ -1,5 +1,9 @@
 <%@include file="../init.jsp"%>
 
+<liferay-ui:success key="entryAdded" message="entry-added" />
+<liferay-ui:success key="guestbookAdded" message="guestbook-added" />
+<liferay-ui:success key="entryDeleted" message="entry-deleted" />
+
 <%
 long guestbookId = Long.valueOf((Long) renderRequest
         .getAttribute("guestbookId"));
