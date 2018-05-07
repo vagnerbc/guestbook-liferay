@@ -19,7 +19,12 @@
 <%@ page import="com.liferay.docs.guestbook.model.Guestbook" %>
 <%@ page import="com.liferay.docs.guestbook.service.EntryLocalServiceUtil" %>
 <%@ page import="com.liferay.docs.guestbook.service.GuestbookLocalServiceUtil" %>
-<%@ page import="com.liferay.docs.guestbook.model.Entry" %> 
+<%@ page import="com.liferay.docs.guestbook.model.Entry" %>
+<%@ page import="com.liferay.docs.guestbook.service.permission.GuestbookModelPermission" %>
+<%@ page import="com.liferay.docs.guestbook.service.permission.GuestbookPermission" %>
+<%@ page import="com.liferay.docs.guestbook.service.permission.EntryPermission" %>
+<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
+<%@ page import="com.liferay.portal.kernel.security.permission.ActionKeys" %> 
 
 <liferay-theme:defineObjects />
 
