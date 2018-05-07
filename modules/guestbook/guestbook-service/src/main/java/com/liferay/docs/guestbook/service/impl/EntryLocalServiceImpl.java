@@ -54,14 +54,14 @@ public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
 	 * Never reference this class directly. Always use {@link com.liferay.docs.guestbook.service.EntryLocalServiceUtil} to access the entry local service.
 	 */
 	
-	public Entry addEntry(
-	    long userId, long guestbookId, String name, String email,
+	public Entry addEntry(long guestbookId, String name, String email,
 	    String message, ServiceContext serviceContext)
 	    throws PortalException {
 
 	    long groupId = serviceContext.getScopeGroupId();
 
-	    User user = userLocalService.getUserById(userId);
+	    long userId = serviceContext.getUserId();
+		User user = userLocalService.getUserById(userId );
 
 	    Date now = new Date();
 
@@ -92,8 +92,7 @@ public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
 	    return entry;
 	}
 	
-	public Entry updateEntry (
-	    long userId, long guestbookId, long entryId, String name, String email,
+	public Entry updateEntry (long guestbookId, long entryId, String name, String email,
 	    String message, ServiceContext serviceContext)
 	    throws PortalException, SystemException {
 
@@ -103,7 +102,8 @@ public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
 
 	    Entry entry = getEntry(entryId);
 
-	    User user = userLocalService.getUserById(userId);
+	    long userId = serviceContext.getUserId();
+		User user = userLocalService.getUserById(userId );
 
 	    entry.setUserId(userId);
 	    entry.setUserName(user.getFullName());

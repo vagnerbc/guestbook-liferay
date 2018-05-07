@@ -74,7 +74,7 @@ public interface GuestbookLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Guestbook addGuestbook(Guestbook guestbook);
 
-	public Guestbook addGuestbook(long userId, java.lang.String name,
+	public Guestbook addGuestbook(java.lang.String name,
 		ServiceContext serviceContext) throws PortalException;
 
 	/**
@@ -153,9 +153,8 @@ public interface GuestbookLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Guestbook updateGuestbook(Guestbook guestbook);
 
-	public Guestbook updateGuestbook(long userId, long guestbookId,
-		java.lang.String name, ServiceContext serviceContext)
-		throws PortalException, SystemException;
+	public Guestbook updateGuestbook(long guestbookId, java.lang.String name,
+		ServiceContext serviceContext) throws PortalException, SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();

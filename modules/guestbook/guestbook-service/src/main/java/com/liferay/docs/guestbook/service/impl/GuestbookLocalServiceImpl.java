@@ -53,13 +53,13 @@ public class GuestbookLocalServiceImpl extends GuestbookLocalServiceBaseImpl {
 	 * Never reference this class directly. Always use {@link com.liferay.docs.guestbook.service.GuestbookLocalServiceUtil} to access the guestbook local service.
 	 */
 	
-	public Guestbook addGuestbook(
-	    long userId, String name, ServiceContext serviceContext)
+	public Guestbook addGuestbook(String name, ServiceContext serviceContext)
 	    throws PortalException {
 
 	    long groupId = serviceContext.getScopeGroupId();
 
-	    User user = userLocalService.getUserById(userId);
+	    long userId = serviceContext.getUserId();
+		User user = userLocalService.getUserById(userId );
 
 	    Date now = new Date();
 
@@ -88,7 +88,7 @@ public class GuestbookLocalServiceImpl extends GuestbookLocalServiceBaseImpl {
 
 	}
 	
-	public Guestbook updateGuestbook(long userId, long guestbookId,
+	public Guestbook updateGuestbook(long guestbookId,
 	    String name, ServiceContext serviceContext) throws PortalException,
 	                SystemException {
 
@@ -98,7 +98,8 @@ public class GuestbookLocalServiceImpl extends GuestbookLocalServiceBaseImpl {
 
 	        Guestbook guestbook = getGuestbook(guestbookId);
 
-	        User user = userLocalService.getUser(userId);
+	        long userId = serviceContext.getUserId();
+			User user = userLocalService.getUser(userId );
 
 	        guestbook.setUserId(userId);
 	        guestbook.setUserName(user.getFullName());

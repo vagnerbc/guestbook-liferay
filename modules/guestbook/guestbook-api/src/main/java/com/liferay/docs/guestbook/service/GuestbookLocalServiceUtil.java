@@ -54,10 +54,10 @@ public class GuestbookLocalServiceUtil {
 	}
 
 	public static com.liferay.docs.guestbook.model.Guestbook addGuestbook(
-		long userId, java.lang.String name,
+		java.lang.String name,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().addGuestbook(userId, name, serviceContext);
+		return getService().addGuestbook(name, serviceContext);
 	}
 
 	/**
@@ -159,12 +159,11 @@ public class GuestbookLocalServiceUtil {
 	}
 
 	public static com.liferay.docs.guestbook.model.Guestbook updateGuestbook(
-		long userId, long guestbookId, java.lang.String name,
+		long guestbookId, java.lang.String name,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		return getService()
-				   .updateGuestbook(userId, guestbookId, name, serviceContext);
+		return getService().updateGuestbook(guestbookId, name, serviceContext);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {

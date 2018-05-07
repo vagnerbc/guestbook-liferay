@@ -57,8 +57,7 @@ public class GuestbookAdminPortlet extends MVCPortlet{
 	    String name = ParamUtil.getString(request, "name");
 
 	    try {
-	        _guestbookLocalService.addGuestbook(
-	            serviceContext.getUserId(), name, serviceContext);
+	        _guestbookLocalService.addGuestbook(name, serviceContext);
 	        
 	        SessionMessages.add(request, "guestbookAdded");
 	    }
@@ -84,8 +83,7 @@ public class GuestbookAdminPortlet extends MVCPortlet{
 	    long guestbookId = ParamUtil.getLong(request, "guestbookId");
 
 	    try {
-	        _guestbookLocalService.updateGuestbook(
-	            serviceContext.getUserId(), guestbookId, name, serviceContext);
+	        _guestbookLocalService.updateGuestbook(guestbookId, name, serviceContext);
 	        
 	        SessionMessages.add(request, "guestbookUpdated");
 

@@ -77,8 +77,7 @@ public class GuestbookPortlet extends MVCPortlet {
 	
 	        try {
 	
-	            _entryLocalService.updateEntry(
-	                serviceContext.getUserId(), guestbookId, entryId, userName,
+	            _entryLocalService.updateEntry(guestbookId, entryId, userName,
 	                email, message, serviceContext);
 	
 	            SessionMessages.add(request, "entryAdded");
@@ -102,8 +101,7 @@ public class GuestbookPortlet extends MVCPortlet {
 	    else {
 	
 	        try {
-	            _entryLocalService.addEntry(
-	                serviceContext.getUserId(), guestbookId, userName, email,
+	            _entryLocalService.addEntry(guestbookId, userName, email,
 	                message, serviceContext);
 	
 	            SessionMessages.add(request, "entryAdded");
@@ -164,8 +162,7 @@ public class GuestbookPortlet extends MVCPortlet {
                 groupId);
 
             if (guestbooks.isEmpty()) {
-                Guestbook guestbook = _guestbookLocalService.addGuestbook(
-                    serviceContext.getUserId(), "Main", serviceContext);
+                Guestbook guestbook = _guestbookLocalService.addGuestbook("Main", serviceContext);
 
                 guestbookId = guestbook.getGuestbookId();
             }

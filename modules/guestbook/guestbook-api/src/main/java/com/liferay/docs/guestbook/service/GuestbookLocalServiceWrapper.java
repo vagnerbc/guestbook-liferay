@@ -47,10 +47,10 @@ public class GuestbookLocalServiceWrapper implements GuestbookLocalService,
 
 	@Override
 	public com.liferay.docs.guestbook.model.Guestbook addGuestbook(
-		long userId, java.lang.String name,
+		java.lang.String name,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _guestbookLocalService.addGuestbook(userId, name, serviceContext);
+		return _guestbookLocalService.addGuestbook(name, serviceContext);
 	}
 
 	/**
@@ -164,12 +164,12 @@ public class GuestbookLocalServiceWrapper implements GuestbookLocalService,
 
 	@Override
 	public com.liferay.docs.guestbook.model.Guestbook updateGuestbook(
-		long userId, long guestbookId, java.lang.String name,
+		long guestbookId, java.lang.String name,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		return _guestbookLocalService.updateGuestbook(userId, guestbookId,
-			name, serviceContext);
+		return _guestbookLocalService.updateGuestbook(guestbookId, name,
+			serviceContext);
 	}
 
 	@Override

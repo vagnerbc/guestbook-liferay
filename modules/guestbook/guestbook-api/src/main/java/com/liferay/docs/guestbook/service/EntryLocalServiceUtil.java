@@ -53,14 +53,13 @@ public class EntryLocalServiceUtil {
 		return getService().addEntry(entry);
 	}
 
-	public static com.liferay.docs.guestbook.model.Entry addEntry(long userId,
+	public static com.liferay.docs.guestbook.model.Entry addEntry(
 		long guestbookId, java.lang.String name, java.lang.String email,
 		java.lang.String message,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
-				   .addEntry(userId, guestbookId, name, email, message,
-			serviceContext);
+				   .addEntry(guestbookId, name, email, message, serviceContext);
 	}
 
 	/**
@@ -160,14 +159,14 @@ public class EntryLocalServiceUtil {
 	}
 
 	public static com.liferay.docs.guestbook.model.Entry updateEntry(
-		long userId, long guestbookId, long entryId, java.lang.String name,
+		long guestbookId, long entryId, java.lang.String name,
 		java.lang.String email, java.lang.String message,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		return getService()
-				   .updateEntry(userId, guestbookId, entryId, name, email,
-			message, serviceContext);
+				   .updateEntry(guestbookId, entryId, name, email, message,
+			serviceContext);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
