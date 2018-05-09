@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
         "com.liferay.portlet.display-category=category.social",
         "com.liferay.portlet.instanceable=false",
         "com.liferay.portlet.scopeable=true",
+        "com.liferay.portlet.header-portlet-css=/guestbookwebportlet/css/main.css",
         "javax.portlet.name=" + GuestbookPortletKeys.GUESTBOOK,
         "javax.portlet.expiration-cache=0",
         "javax.portlet.init-param.template-path=/",

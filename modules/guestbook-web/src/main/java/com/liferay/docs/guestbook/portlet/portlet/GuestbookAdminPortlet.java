@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
     property = {
             "com.liferay.portlet.display-category=category.hidden",
             "com.liferay.portlet.scopeable=true",
+            "com.liferay.portlet.header-portlet-css=/guestbookadminportlet/css/main.css",
             "javax.portlet.display-name=Guestbooks",
             "javax.portlet.expiration-cache=0",
             "javax.portlet.init-param.portlet-title-based-navigation=true",
