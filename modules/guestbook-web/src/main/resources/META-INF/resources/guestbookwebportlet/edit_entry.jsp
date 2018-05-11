@@ -24,8 +24,13 @@ long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 <aui:model-context bean="<%= entry %>" model="<%= Entry.class %>" />
 
     <aui:fieldset>
-        <aui:input name="name" />
-        <aui:input name="email" />
+        <aui:input name="name">
+        	<aui:validator name="required" errorMessage="The Name is required." />
+        </aui:input>
+        <aui:input name="email">
+        	<aui:validator name="required" errorMessage="The Email is required."/>
+        	<aui:validator name="email" errorMessage="The Email is incorrect."/>
+        </aui:input>
         <aui:input name="message" />
         <aui:input name="entryId" type="hidden" />
         <aui:input name="guestbookId" type="hidden" value='<%= entry == null ? guestbookId : entry.getGuestbookId() %>'/>

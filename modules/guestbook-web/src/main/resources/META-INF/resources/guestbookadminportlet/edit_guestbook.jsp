@@ -25,7 +25,9 @@
 		    value='<%= guestbook == null ? "" : guestbook.getGuestbookId() %>' />
 		
 		<aui:fieldset>
-		     <aui:input name="name" />
+		     <aui:input name="name"> 
+			     <aui:validator name="required" />		     
+		     </aui:input>
 		</aui:fieldset>
 		
 		<aui:button-row>
