@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 
 @Component(
     immediate = true,
@@ -61,66 +60,6 @@ public class GuestbookPortlet extends MVCPortlet {
     private EntryLocalService _entryLocalService;
     private GuestbookLocalService _guestbookLocalService;
 	
-	
-	public void addEntry(ActionRequest request, ActionResponse response)
-            throws PortalException {
-
-        ServiceContext serviceContext = ServiceContextFactory.getInstance(
-            Entry.class.getName(), request);
-
-        String userName = ParamUtil.getString(request, "name");
-        String email = ParamUtil.getString(request, "email");
-        String message = ParamUtil.getString(request, "message");
-        long guestbookId = ParamUtil.getLong(request, "guestbookId");
-        long entryId = ParamUtil.getLong(request, "entryId");
-
-	    if (entryId > 0) {
-	
-	        try {
-	
-	            _entryLocalService.updateEntry(guestbookId, entryId, userName,
-	                email, message, serviceContext);
-	
-	            SessionMessages.add(request, "entryAdded");
-	
-	            response.setRenderParameter(
-	                "guestbookId", Long.toString(guestbookId));
-	
-	        }
-	        catch (Exception e) {
-	            System.out.println(e);
-	
-	            SessionErrors.add(request, e.getClass().getName());
-	
-	            PortalUtil.copyRequestParameters(request, response);
-	
-	            response.setRenderParameter(
-	                "mvcPath", "/guestbookwebportlet/edit_entry.jsp");
-	        }
-	
-	    }
-	    else {
-	
-	        try {
-	            _entryLocalService.addEntry(guestbookId, userName, email,
-	                message, serviceContext);
-	
-	            SessionMessages.add(request, "entryAdded");
-	
-	            response.setRenderParameter(
-	                "guestbookId", Long.toString(guestbookId));
-	
-	        }
-	        catch (Exception e) {
-	            SessionErrors.add(request, e.getClass().getName());
-	
-	            PortalUtil.copyRequestParameters(request, response);
-	
-	            response.setRenderParameter(
-	                "mvcPath", "/guestbookwebportlet/edit_entry.jsp");
-	        }
-	    }
-	}
 	
 	public void deleteEntry(ActionRequest request, ActionResponse response) throws PortalException {
 	    long entryId = ParamUtil.getLong(request, "entryId");
