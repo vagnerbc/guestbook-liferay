@@ -21,18 +21,18 @@ long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 <portlet:actionURL name="addEntry" var="addEntryURL"></portlet:actionURL>
 
 <aui:form action="<%= addEntryURL %>" name="<portlet:namespace />fm">
+	
+	<aui:model-context bean="<%= entry %>" model="<%= Entry.class %>" />
 
-<aui:model-context bean="<%= entry %>" model="<%= Entry.class %>" />
-
-    <aui:fieldset >
-        <aui:input name="name">
+    <aui:fieldset>
+        <aui:input name="name" disabled="<%=!editable%>">
         	<aui:validator name="required" errorMessage="The Name is required." />
         </aui:input>
-        <aui:input name="email">
+        <aui:input name="email" disabled="<%=!editable%>">
         	<aui:validator name="required" errorMessage="The Email is required."/>
         	<aui:validator name="email" errorMessage="The Email is incorrect."/>
         </aui:input>
-        <aui:input name="message" />
+        <aui:input name="message" disabled="<%=!editable%>" />
         <aui:input name="entryId" type="hidden" />
         <aui:input name="guestbookId" type="hidden" value='<%= entry == null ? guestbookId : entry.getGuestbookId() %>'/>
     </aui:fieldset>
