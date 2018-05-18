@@ -10,14 +10,16 @@ Entry entry = (Entry)row.getObject();
 
 <liferay-ui:icon-menu>
 
-    <portlet:renderURL var="viewEntryURL">
-        <portlet:param name="entryId" value="<%= String.valueOf(entry.getEntryId()) %>" />
-        <portlet:param name="mvcPath" value="/guestbookwebportlet/view_entry.jsp" />
+    <portlet:renderURL var="editURL1">
+        <portlet:param name="entryId"
+            value="<%= String.valueOf(entry.getEntryId()) %>" />
+        <portlet:param name="mvcPath" value="/guestbookwebportlet/edit_entry.jsp" />
+        <portlet:param name="editable" value="false" />
     </portlet:renderURL>
 
     <liferay-ui:icon
         message="View"
-        url="<%= viewEntryURL.toString() %>"
+        url="<%= editURL1.toString() %>"
     />
 
     <c:if
@@ -26,6 +28,7 @@ Entry entry = (Entry)row.getObject();
             <portlet:param name="entryId"
                 value="<%= String.valueOf(entry.getEntryId()) %>" />
             <portlet:param name="mvcPath" value="/guestbookwebportlet/edit_entry.jsp" />
+            <portlet:param name="editable" value="true" />
         </portlet:renderURL>
 
         <liferay-ui:icon image="edit" message="Edit"

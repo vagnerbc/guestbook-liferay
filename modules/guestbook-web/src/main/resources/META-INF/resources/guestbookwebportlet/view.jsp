@@ -73,6 +73,7 @@ long guestbookId = Long.valueOf((Long) renderRequest
 	        <portlet:param name="mvcPath" value="/guestbookwebportlet/edit_entry.jsp" />
 	        <portlet:param name="guestbookId"
 	            value="<%=String.valueOf(guestbookId)%>" />
+	        <portlet:param name="editable" value="true" />
 	    </portlet:renderURL>
 	
 	    <aui:button onClick="<%=addEntryURL.toString()%>" value="Add Entry"></aui:button>

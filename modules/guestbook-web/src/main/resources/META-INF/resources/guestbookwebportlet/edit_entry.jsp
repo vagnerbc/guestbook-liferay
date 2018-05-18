@@ -1,6 +1,7 @@
 <%@include file="../init.jsp" %>
 
 <% 
+boolean editable = ParamUtil.getBoolean(renderRequest, "editable");
 
 long entryId = ParamUtil.getLong(renderRequest, "entryId");
 
@@ -23,7 +24,7 @@ long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 
 <aui:model-context bean="<%= entry %>" model="<%= Entry.class %>" />
 
-    <aui:fieldset>
+    <aui:fieldset >
         <aui:input name="name">
         	<aui:validator name="required" errorMessage="The Name is required." />
         </aui:input>
@@ -36,8 +37,10 @@ long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
         <aui:input name="guestbookId" type="hidden" value='<%= entry == null ? guestbookId : entry.getGuestbookId() %>'/>
     </aui:fieldset>
 
-    <aui:button-row>
-        <aui:button type="submit"></aui:button>
-        <aui:button type="cancel" onClick="<%= viewURL.toString() %>"></aui:button>
-    </aui:button-row>
+	<c:if test="<%=editable%>">
+	    <aui:button-row>
+	        <aui:button type="submit"></aui:button>
+	        <aui:button type="cancel" onClick="<%= viewURL.toString() %>"></aui:button>
+	    </aui:button-row>
+    </c:if>
 </aui:form>
