@@ -15,44 +15,46 @@ import org.osgi.service.component.annotations.Reference;
     property = {"model.class.name=com.liferay.docs.guestbook.model.Entry"}
 )
 public class EntryPermission implements BaseModelPermissionChecker {
-	
-	@Reference(unbind = "-")
-    protected void setEntryLocalService (EntryLocalService entryLocalService) {
 
-        _entryLocalService = entryLocalService;
+  public static void check(
+      PermissionChecker permissionChecker, long entryId, String actionId)
+      throws PortalException, SystemException {
+
+    if (!contains(permissionChecker, entryId, actionId)) {
+      throw new PrincipalException();
     }
+  }
 
-    private static EntryLocalService _entryLocalService; 
+  public static boolean contains(
+      PermissionChecker permissionChecker, long entryId, String actionId)
+      throws PortalException, SystemException {
 
-    public static void check(
-        PermissionChecker permissionChecker, long entryId, String actionId)
-        throws PortalException, SystemException {
+    Entry entry = _entryLocalService.getEntry(entryId);
 
-        if (!contains(permissionChecker, entryId, actionId)) {
-            throw new PrincipalException();
-        }
-    }
+    return contains(permissionChecker, entry, actionId);
 
-    public static boolean contains(
-        PermissionChecker permissionChecker, long entryId, String actionId)
-        throws PortalException, SystemException {
+  }
 
-        Entry entry = _entryLocalService.getEntry(entryId);
+  public static boolean contains(
+      PermissionChecker permissionChecker, Entry entry, String actionId) throws
+      PortalException, SystemException {
 
-        return contains (permissionChecker, entry, actionId);
+    return permissionChecker
+        .hasPermission(entry.getGroupId(), Entry.class.getName(), entry.getEntryId(), actionId);
+  }
 
-    }
+  @Override
+  public void checkBaseModel(
+      PermissionChecker permissionChecker, long groupId, long primaryKey, String actionId)
+      throws PortalException {
+    check(permissionChecker, primaryKey, actionId);
+  }
 
-    public static boolean contains(
-        PermissionChecker permissionChecker, Entry entry, String actionId) throws
-        PortalException, SystemException {
+  @Reference(unbind = "-")
+  protected void setEntryLocalService(EntryLocalService entryLocalService) {
 
-        return permissionChecker.hasPermission(entry.getGroupId(), Entry.class.getName(), entry.getEntryId(), actionId);
-    }
+    _entryLocalService = entryLocalService;
+  }
 
-    @Override
-    public void checkBaseModel(
-        PermissionChecker permissionChecker, long groupId, long primaryKey, String actionId) throws PortalException {
-            check(permissionChecker, primaryKey, actionId);
-    }
+  private static EntryLocalService _entryLocalService;
 }

@@ -1,20 +1,5 @@
 package com.liferay.docs.guestbook.portlet.portlet;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.docs.guestbook.constants.GuestbookPortletKeys;
 import com.liferay.docs.guestbook.model.Entry;
 import com.liferay.docs.guestbook.model.Guestbook;
@@ -27,6 +12,18 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 @Component(
     immediate = true,
@@ -46,77 +43,74 @@ import com.liferay.portal.kernel.util.ParamUtil;
     service = Portlet.class
 )
 public class GuestbookPortlet extends MVCPortlet {
-	
-	@Reference(unbind = "-")
-    protected void setEntryService(EntryLocalService entryLocalService) {
-        _entryLocalService = entryLocalService;
+
+  public void deleteEntry(ActionRequest request, ActionResponse response) throws PortalException {
+    long entryId = ParamUtil.getLong(request, "entryId");
+    long guestbookId = ParamUtil.getLong(request, "guestbookId");
+
+    ServiceContext serviceContext = ServiceContextFactory.getInstance(
+        Entry.class.getName(), request);
+
+    try {
+
+      response.setRenderParameter(
+          "guestbookId", Long.toString(guestbookId));
+
+      _entryLocalService.deleteEntry(entryId, serviceContext);
+
+      SessionMessages.add(request, "entryDeleted");
+    } catch (Exception e) {
+      Logger.getLogger(GuestbookPortlet.class.getName()).log(
+          Level.SEVERE, null, e);
+
+      SessionErrors.add(request, e.getClass().getName());
+    }
+  }
+
+  @Override
+  public void render(RenderRequest renderRequest, RenderResponse renderResponse)
+      throws IOException, PortletException {
+
+    try {
+      ServiceContext serviceContext = ServiceContextFactory.getInstance(
+          Guestbook.class.getName(), renderRequest);
+
+      long groupId = serviceContext.getScopeGroupId();
+
+      long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
+
+      List<Guestbook> guestbooks = _guestbookLocalService.getGuestbooks(
+          groupId);
+
+      if (guestbooks.isEmpty()) {
+        Guestbook guestbook = _guestbookLocalService.addGuestbook("Main", serviceContext);
+
+        guestbookId = guestbook.getGuestbookId();
+      }
+
+      if (guestbookId == 0) {
+        guestbookId = guestbooks.get(0).getGuestbookId();
+      }
+
+      renderRequest.setAttribute("guestbookId", guestbookId);
+    } catch (Exception e) {
+      throw new PortletException(e);
     }
 
-    @Reference(unbind = "-")
-    protected void setGuestbookService(GuestbookLocalService guestbookLocalService) {
-        _guestbookLocalService = guestbookLocalService;
-    }
+    super.render(renderRequest, renderResponse);
+  }
 
-    private EntryLocalService _entryLocalService;
-    private GuestbookLocalService _guestbookLocalService;
-	
-	
-	public void deleteEntry(ActionRequest request, ActionResponse response) throws PortalException {
-	    long entryId = ParamUtil.getLong(request, "entryId");
-	    long guestbookId = ParamUtil.getLong(request, "guestbookId");
-	
-	    ServiceContext serviceContext = ServiceContextFactory.getInstance(
-	        Entry.class.getName(), request);
-	
-	    try {
-	
-	        response.setRenderParameter(
-	            "guestbookId", Long.toString(guestbookId));
-	
-	        _entryLocalService.deleteEntry(entryId, serviceContext);
-	        
-	        SessionMessages.add(request, "entryDeleted");
-	    }
-	
-	    catch (Exception e) {
-	        Logger.getLogger(GuestbookPortlet.class.getName()).log(
-	            Level.SEVERE, null, e);
-	        
-	        SessionErrors.add(request, e.getClass().getName());
-	    }
-	}
-	
-	@Override
-	public void render(RenderRequest renderRequest, RenderResponse renderResponse)
-	        throws IOException, PortletException {
+  @Reference(unbind = "-")
+  protected void setEntryService(EntryLocalService entryLocalService) {
+    _entryLocalService = entryLocalService;
+  }
 
-        try {
-            ServiceContext serviceContext = ServiceContextFactory.getInstance(
-                Guestbook.class.getName(), renderRequest);
+  @Reference(unbind = "-")
+  protected void setGuestbookService(GuestbookLocalService guestbookLocalService) {
+    _guestbookLocalService = guestbookLocalService;
+  }
 
-            long groupId = serviceContext.getScopeGroupId();
+  private EntryLocalService _entryLocalService;
 
-            long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
-
-            List<Guestbook> guestbooks = _guestbookLocalService.getGuestbooks(
-                groupId);
-
-            if (guestbooks.isEmpty()) {
-                Guestbook guestbook = _guestbookLocalService.addGuestbook("Main", serviceContext);
-
-                guestbookId = guestbook.getGuestbookId();
-            }
-
-            if (guestbookId == 0) {
-                guestbookId = guestbooks.get(0).getGuestbookId();
-            }
-
-            renderRequest.setAttribute("guestbookId", guestbookId);
-        }
-        catch (Exception e) {
-            throw new PortletException(e);
-        }
-
-        super.render(renderRequest, renderResponse);
-	}
+  private GuestbookLocalService _guestbookLocalService;
 }

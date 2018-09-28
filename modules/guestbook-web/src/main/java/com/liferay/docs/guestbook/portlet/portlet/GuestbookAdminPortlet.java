@@ -1,15 +1,5 @@
 package com.liferay.docs.guestbook.portlet.portlet;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.Portlet;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.docs.guestbook.constants.GuestbookPortletKeys;
 import com.liferay.docs.guestbook.model.Guestbook;
 import com.liferay.docs.guestbook.service.GuestbookLocalService;
@@ -20,106 +10,111 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.Portlet;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 @Component(
     immediate = true,
     property = {
-            "com.liferay.portlet.display-category=category.hidden",
-            "com.liferay.portlet.scopeable=true",
-            "com.liferay.portlet.header-portlet-css=/guestbookadminportlet/css/main.css",
-            "javax.portlet.display-name=Guestbooks",
-            "javax.portlet.expiration-cache=0",
-            "javax.portlet.init-param.portlet-title-based-navigation=true",
-            "javax.portlet.init-param.template-path=/",
-            "javax.portlet.init-param.view-template=/guestbookadminportlet/view.jsp",
-            "javax.portlet.name=" + GuestbookPortletKeys.GUESTBOOK_ADMIN,
-            "javax.portlet.resource-bundle=content.Language",
-            "javax.portlet.security-role-ref=administrator",
-            "javax.portlet.supports.mime-type=text/html",
-            "com.liferay.portlet.add-default-resource=true"
+        "com.liferay.portlet.display-category=category.hidden",
+        "com.liferay.portlet.scopeable=true",
+        "com.liferay.portlet.header-portlet-css=/guestbookadminportlet/css/main.css",
+        "javax.portlet.display-name=Guestbooks",
+        "javax.portlet.expiration-cache=0",
+        "javax.portlet.init-param.portlet-title-based-navigation=true",
+        "javax.portlet.init-param.template-path=/",
+        "javax.portlet.init-param.view-template=/guestbookadminportlet/view.jsp",
+        "javax.portlet.name=" + GuestbookPortletKeys.GUESTBOOK_ADMIN,
+        "javax.portlet.resource-bundle=content.Language",
+        "javax.portlet.security-role-ref=administrator",
+        "javax.portlet.supports.mime-type=text/html",
+        "com.liferay.portlet.add-default-resource=true"
     },
     service = Portlet.class
 )
-public class GuestbookAdminPortlet extends MVCPortlet{
-	
-	private GuestbookLocalService _guestbookLocalService;
+public class GuestbookAdminPortlet extends MVCPortlet {
 
-	@Reference(unbind = "-")
-	protected void setGuestbookService(GuestbookLocalService guestbookLocalService) {
-	    _guestbookLocalService = guestbookLocalService;
-	}
+  public void addGuestbook(ActionRequest request, ActionResponse response)
+      throws PortalException {
 
-	public void addGuestbook(ActionRequest request, ActionResponse response)
-	    throws PortalException {
+    ServiceContext serviceContext = ServiceContextFactory.getInstance(
+        Guestbook.class.getName(), request);
 
-	    ServiceContext serviceContext = ServiceContextFactory.getInstance(
-	        Guestbook.class.getName(), request);
+    String name = ParamUtil.getString(request, "name");
 
-	    String name = ParamUtil.getString(request, "name");
+    try {
+      _guestbookLocalService.addGuestbook(name, serviceContext);
 
-	    try {
-	        _guestbookLocalService.addGuestbook(name, serviceContext);
-	        
-	        SessionMessages.add(request, "guestbookAdded");
-	    }
-	    catch (PortalException pe) {
+      SessionMessages.add(request, "guestbookAdded");
+    } catch (PortalException pe) {
 
-	        Logger.getLogger(GuestbookAdminPortlet.class.getName()).log(
-	            Level.SEVERE, null, pe);
-	        
-	        SessionErrors.add(request, pe.getClass().getName());
+      Logger.getLogger(GuestbookAdminPortlet.class.getName()).log(
+          Level.SEVERE, null, pe);
 
-	        response.setRenderParameter(
-	            "mvcPath", "/guestbookadminportlet/edit_guestbook.jsp");
-	    }
-	}
+      SessionErrors.add(request, pe.getClass().getName());
 
-	public void updateGuestbook(ActionRequest request, ActionResponse response)
-	    throws PortalException {
+      response.setRenderParameter(
+          "mvcPath", "/guestbookadminportlet/edit_guestbook.jsp");
+    }
+  }
 
-	    ServiceContext serviceContext = ServiceContextFactory.getInstance(
-	        Guestbook.class.getName(), request);
+  public void deleteGuestbook(ActionRequest request, ActionResponse response)
+      throws PortalException {
 
-	    String name = ParamUtil.getString(request, "name");
-	    long guestbookId = ParamUtil.getLong(request, "guestbookId");
+    ServiceContext serviceContext = ServiceContextFactory.getInstance(
+        Guestbook.class.getName(), request);
 
-	    try {
-	        _guestbookLocalService.updateGuestbook(guestbookId, name, serviceContext);
-	        
-	        SessionMessages.add(request, "guestbookUpdated");
+    long guestbookId = ParamUtil.getLong(request, "guestbookId");
 
-	    } catch (PortalException pe) {
+    try {
+      _guestbookLocalService.deleteGuestbook(guestbookId, serviceContext);
 
-	        Logger.getLogger(GuestbookAdminPortlet.class.getName()).log(
-	            Level.SEVERE, null, pe);
-	        
-	        SessionErrors.add(request, pe.getClass().getName());
+      SessionMessages.add(request, "guestbookDeleted");
+    } catch (PortalException pe) {
 
-	        response.setRenderParameter(
-	            "mvcPath", "/guestbookadminportlet/edit_guestbook.jsp");
-	    }
-	}
-	
-	public void deleteGuestbook(ActionRequest request, ActionResponse response)
-	    throws PortalException {
+      Logger.getLogger(GuestbookAdminPortlet.class.getName()).log(
+          Level.SEVERE, null, pe);
 
-	    ServiceContext serviceContext = ServiceContextFactory.getInstance(
-	        Guestbook.class.getName(), request);
+      SessionErrors.add(request, pe.getClass().getName());
+    }
+  }
 
-	    long guestbookId = ParamUtil.getLong(request, "guestbookId");
+  public void updateGuestbook(ActionRequest request, ActionResponse response)
+      throws PortalException {
 
-	    try {
-	        _guestbookLocalService.deleteGuestbook(guestbookId, serviceContext);
-	        
-	        SessionMessages.add(request, "guestbookDeleted");
-	    }
-	    catch (PortalException pe) {
+    ServiceContext serviceContext = ServiceContextFactory.getInstance(
+        Guestbook.class.getName(), request);
 
-	        Logger.getLogger(GuestbookAdminPortlet.class.getName()).log(
-	            Level.SEVERE, null, pe);
-	        
-	        SessionErrors.add(request, pe.getClass().getName());
-	    }
-	}
-	
+    String name = ParamUtil.getString(request, "name");
+    long guestbookId = ParamUtil.getLong(request, "guestbookId");
+
+    try {
+      _guestbookLocalService.updateGuestbook(guestbookId, name, serviceContext);
+
+      SessionMessages.add(request, "guestbookUpdated");
+
+    } catch (PortalException pe) {
+
+      Logger.getLogger(GuestbookAdminPortlet.class.getName()).log(
+          Level.SEVERE, null, pe);
+
+      SessionErrors.add(request, pe.getClass().getName());
+
+      response.setRenderParameter(
+          "mvcPath", "/guestbookadminportlet/edit_guestbook.jsp");
+    }
+  }
+
+  @Reference(unbind = "-")
+  protected void setGuestbookService(GuestbookLocalService guestbookLocalService) {
+    _guestbookLocalService = guestbookLocalService;
+  }
+
+  private GuestbookLocalService _guestbookLocalService;
+
 }

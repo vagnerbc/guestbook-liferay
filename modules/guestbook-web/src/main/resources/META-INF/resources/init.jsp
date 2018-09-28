@@ -13,25 +13,20 @@
 <%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
 <%@ page import="com.liferay.portal.kernel.util.HtmlUtil" %>
 <%@ page import="com.liferay.portal.kernel.util.StringPool" %>
+<%@ page import="com.liferay.portal.kernel.util.GetterUtil" %>
+<%@ page import="com.liferay.portal.kernel.util.Validator" %>
+<%@ page import="com.liferay.portal.kernel.util.PortalUtil" %>star
+<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
+<%@ page import="com.liferay.portal.kernel.util.ListUtil" %>
+
 <%@ page import="com.liferay.portal.kernel.model.PersistedModel" %>
+
+<%@ page import="com.liferay.portal.kernel.security.permission.ActionKeys" %>
+
 <%@ page import="com.liferay.portal.kernel.dao.search.SearchEntry" %>
 <%@ page import="com.liferay.portal.kernel.dao.search.ResultRow" %>
-<%@ page import="com.liferay.docs.guestbook.model.Guestbook" %>
-<%@ page import="com.liferay.docs.guestbook.service.EntryLocalServiceUtil" %>
-<%@ page import="com.liferay.docs.guestbook.service.GuestbookLocalServiceUtil" %>
-<%@ page import="com.liferay.docs.guestbook.model.Entry" %>
-<%@ page import="com.liferay.docs.guestbook.service.permission.GuestbookModelPermission" %>
-<%@ page import="com.liferay.docs.guestbook.service.permission.GuestbookPermission" %>
-<%@ page import="com.liferay.docs.guestbook.service.permission.EntryPermission" %>
-<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
-<%@ page import="com.liferay.portal.kernel.security.permission.ActionKeys" %> 
-
 <%@ page import="com.liferay.portal.kernel.dao.search.SearchContainer" %>
-<%@ page import="com.liferay.portal.kernel.exception.PortalException" %>
-<%@ page import="com.liferay.portal.kernel.exception.SystemException" %>
-<%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
-<%@ page import="com.liferay.portal.kernel.log.Log" %>
-<%@ page import="com.liferay.portal.kernel.log.LogFactoryUtil" %>
+
 <%@ page import="com.liferay.portal.kernel.search.Indexer" %>
 <%@ page import="com.liferay.portal.kernel.search.IndexerRegistryUtil" %>
 <%@ page import="com.liferay.portal.kernel.search.SearchContext" %>
@@ -39,10 +34,29 @@
 <%@ page import="com.liferay.portal.kernel.search.Hits" %>
 <%@ page import="com.liferay.portal.kernel.search.Document" %>
 <%@ page import="com.liferay.portal.kernel.search.Field" %>
-<%@ page import="com.liferay.portal.kernel.util.StringPool" %>
-<%@ page import="com.liferay.portal.kernel.util.GetterUtil" %>
-<%@ page import="com.liferay.portal.kernel.util.Validator" %>
-<%@ page import="com.liferay.portal.kernel.util.PortalUtil" %>
+
+<%@ page import="com.liferay.portal.kernel.exception.PortalException" %>
+<%@ page import="com.liferay.portal.kernel.exception.SystemException" %>
+
+<%@ page import="com.liferay.portal.kernel.language.LanguageUtil" %>
+
+<%@ page import="com.liferay.portal.kernel.log.Log" %>
+<%@ page import="com.liferay.portal.kernel.log.LogFactoryUtil" %>
+
+<%@ page import="com.liferay.docs.guestbook.model.Guestbook" %>
+<%@ page import="com.liferay.docs.guestbook.model.Entry" %>
+
+<%@ page import="com.liferay.docs.guestbook.service.EntryLocalServiceUtil" %>
+<%@ page import="com.liferay.docs.guestbook.service.GuestbookLocalServiceUtil" %>
+<%@ page import="com.liferay.docs.guestbook.service.permission.GuestbookModelPermission" %>
+<%@ page import="com.liferay.docs.guestbook.service.permission.GuestbookPermission" %>
+<%@ page import="com.liferay.docs.guestbook.service.permission.EntryPermission" %>
+
+<%@ page import="com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil" %>
+<%@ page import="com.liferay.asset.kernel.service.AssetTagLocalServiceUtil" %>
+
+<%@ page import="com.liferay.asset.kernel.model.AssetEntry" %>
+<%@ page import="com.liferay.asset.kernel.model.AssetTag" %>
 
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Map" %>

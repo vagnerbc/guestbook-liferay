@@ -1,13 +1,12 @@
 package com.liferay.docs.guestbook.application.list;
 
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.application.list.BasePanelApp;
 import com.liferay.application.list.PanelApp;
 import com.liferay.application.list.constants.PanelCategoryKeys;
 import com.liferay.docs.guestbook.constants.GuestbookPortletKeys;
 import com.liferay.portal.kernel.model.Portlet;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 @Component(
     immediate = true,
@@ -17,19 +16,19 @@ import com.liferay.portal.kernel.model.Portlet;
     },
     service = PanelApp.class
 )
-public class GuestbookAdminPanelApp extends BasePanelApp{
+public class GuestbookAdminPanelApp extends BasePanelApp {
 
-	 @Override
-    public String getPortletId() {
-        return GuestbookPortletKeys.GUESTBOOK_ADMIN;
-    }
+  @Override
+  public String getPortletId() {
+    return GuestbookPortletKeys.GUESTBOOK_ADMIN;
+  }
 
-    @Override
-    @Reference(
-        target = "(javax.portlet.name=" + GuestbookPortletKeys.GUESTBOOK_ADMIN + ")",
-        unbind = "-"
-    )
-    public void setPortlet(Portlet portlet) {
-        super.setPortlet(portlet);
-    }
+  @Override
+  @Reference(
+      target = "(javax.portlet.name=" + GuestbookPortletKeys.GUESTBOOK_ADMIN + ")",
+      unbind = "-"
+  )
+  public void setPortlet(Portlet portlet) {
+    super.setPortlet(portlet);
+  }
 }

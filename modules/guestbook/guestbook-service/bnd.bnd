@@ -5,4 +5,5 @@ Liferay-Require-SchemaVersion: 1.0.0
 Liferay-Service: true
 Export-Package: \
 	com.liferay.docs.guestbook.service.permission,\
-	com.liferay.docs.guestbook.search
+	com.liferay.docs.guestbook.search,\
+	com.liferay.docs.guestbook.asset
